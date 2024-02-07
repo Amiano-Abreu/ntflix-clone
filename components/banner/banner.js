@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./banner.module.css"
 
 const Banner = ({title, subTitle, imgUrl}) => {
@@ -7,38 +8,45 @@ const Banner = ({title, subTitle, imgUrl}) => {
     }
 
     return (
-        <div className={{
-            ...styles.container
-            }}
+        <div className={`${styles.container}`}
         >
             <div 
-                style={{
-                ...styles.leftWrapper}}
+                className={`${styles.leftWrapper}`}
             >
-                <div style={{...styles.left}}>
-                    <h3 style={{...styles.title}}>
+                <div className={`${styles.left}`}>
+                    <div
+                        className={styles.nseriesWrapper}
+                    >
+                        <p className={styles.firstLetter}>N</p>
+                        <p className={styles.series}>S E R I E S</p>
+                    </div>
+                    <h3 className={styles.title}>
                         {title}
                     </h3>
-                    <h3 style={{...styles.subTitle}}>
+                    <h3 className={`${styles.subTitle}`}>
                         {subTitle}
                     </h3>
 
-                    <div style={{...styles.playBtnWrapper}}>
+                    <div className={`${styles.playBtnWrapper}`}>
                         <button 
-                            className={{...styles.btnWithIcon}}
-                            onClick={handleOnPlay}>Play</button>
+                            className={`${styles.btnWithIcon}`}
+                            onClick={handleOnPlay}
+                        >
+                            <Image 
+                                src="/static/play.svg" 
+                                alt="Play icon"
+                                width="32"
+                                height="32"
+                            />
+                            <span className={`${styles.playText}`}>Play</span>
+                        </button>
                     </div>
                 </div>
             </div>
             <div 
-                className={styles.bannerImg}
+                className={`${styles.bannerImg}`}
                 style={{
                     backgroundImage: `url(${imgUrl})`,
-                    width: '100%',
-                    height: "100%",
-                    position: 'absolute',
-                    backgroundSize: 'cover',
-                    backgroundPosition: '50% 50%'
                 }}
             >
                 

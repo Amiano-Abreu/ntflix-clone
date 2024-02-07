@@ -3,7 +3,7 @@ import { Roboto_Slab } from "next/font/google";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "700"],
   display: "swap"
 })
 
