@@ -1,11 +1,35 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import styles from "../styles/Login.module.css"
+import { useState } from "react";
 
 const Login = () => {
+    
+    const [userMsg, setUserMsg] = useState("");
+    const [email, setEmail] = useState("");
+
+    const router = useRouter()
+
     const handleLoginWithEmail = (e) => {
         e.preventDefault()
+
+        if (email) {
+            if (email === "amiano@gmail.com") {
+                router.push("/")
+            } else {
+                setUserMsg("Something went wrong")
+            }
+        } else {
+            setUserMsg("Enter a valid email")
+        }
+    }
+
+    const handleChange = (e) => {
+        setUserMsg("")
+        const emailInput = e.target.value
+        setEmail(emailInput)
     }
 
     return (
@@ -44,10 +68,11 @@ const Login = () => {
                         type="text"
                         placeholder="Email address"
                         className={styles.emailInput}
+                        onChange={handleChange}
                     />
 
                     <p className={styles.userMsg}>
-
+                        {userMsg}
                     </p>
                     <button
                         className={styles.loginBtn}
