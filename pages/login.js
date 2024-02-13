@@ -3,25 +3,57 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import styles from "../styles/Login.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { magic } from "../lib/magic-client";
 
 const Login = () => {
     
     const [userMsg, setUserMsg] = useState("");
     const [email, setEmail] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
-    const handleLoginWithEmail = (e) => {
+    useEffect(() => {
+        const handleComplete = () => {
+            setIsLoading(false)
+        }
+
+        router.events.on("routeChangeComplete", handleComplete)
+        router.events.on("routeChangeError", handleComplete)
+
+        return () => {
+            router.events.off("routeChangeComplete", handleComplete)
+            router.events.off("routeChangeError", handleComplete)
+        }
+    }, [router])
+
+    const handleLoginWithEmail = async (e) => {
         e.preventDefault()
 
         if (email) {
-            if (email === "amiano@gmail.com") {
-                router.push("/")
+            if (email === "amianoabreu@gmail.com") {
+                setIsLoading(true)
+                try {
+                    const dIdToken = await magic.auth.loginWithMagicLink({
+                        email
+                    })
+
+                    console.log(dIdToken)
+                    if (dIdToken) {
+                        router.push("/")
+                    }
+                } catch (e) {
+                    setIsLoading(false)
+                    console.error("Something went wrong while loggin in ", e)
+                } 
+
             } else {
+                setIsLoading(false)
                 setUserMsg("Something went wrong")
             }
         } else {
+            setIsLoading(false)
             setUserMsg("Enter a valid email")
         }
     }
@@ -78,7 +110,7 @@ const Login = () => {
                         className={styles.loginBtn}
                         onClick={handleLoginWithEmail}
                     >
-                        Sign In
+                        { isLoading ? "Loading": "Sign In"}
                     </button>
                 </div>
             </main>
