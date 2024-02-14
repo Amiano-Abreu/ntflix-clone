@@ -30,17 +30,35 @@ const NavBar = () => {
         setShowDropdown(prev => !prev)
     }
 
-    useEffect(async () => {
-        try {
-            const { email } = await magic.user.getMetadata();
+    const handleSignOut = async (e) => {
+        e.preventDefault()
 
-            if (email) {
-                setUsername(email)
-            }
+        try {
+            await magic.user.logout();
+            console.log(await magic.user.isLoggedIn())
+
+            router.push("/login")
         } catch (error) {
-            console.error("Error retrieving email ", error)
+            console.error("Error logging out ", error)
+            router.push("/login")
         }
-    })
+    }
+
+    useEffect(() => {
+        const retrieveEmail = async () => {
+            try {
+                const { email } = await magic.user.getInfo();
+    
+                if (email) {
+                    setUsername(email)
+                }
+            } catch (error) {
+                console.error("Error retrieving email ", error)
+            }
+        }
+
+        retrieveEmail()
+    }, [])
 
     return (
         <div
@@ -72,9 +90,12 @@ const NavBar = () => {
                             (
                                 <div className={styles.navDropdown}>
                                     <div>
-                                        <Link className={styles.linkName} href="/login">
+                                        <a 
+                                            className={styles.linkName}
+                                            onClick={handleSignOut}
+                                        >
                                             sign out
-                                        </Link>
+                                        </a>
                                         <div className={styles.lineWrapper}></div>
 
                                     </div>
