@@ -48,11 +48,14 @@ export default function App({ Component, pageProps }) {
   }, [router])
 
   return (
-    isLoading ?
-    <Loading />
-    :
-    <main className={`${robotoSlab.className}`}>
-      <Component {...pageProps} />
+    <main 
+      className={`${robotoSlab.className} ${isLoading ? "fullHeight" : ""}`}
+    >
+      {
+        isLoading ?
+          <Loading /> :
+          <Component {...pageProps} />
+      }
     </main>
   );
 }
