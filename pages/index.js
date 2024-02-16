@@ -46,6 +46,7 @@ export default function Home({
         />
 
         <Banner 
+          videoId="VWavstJydZU"
           title="Clifford the red dog" 
           subTitle="a very cute dog" 
           imgUrl="/static/banner.webp" 

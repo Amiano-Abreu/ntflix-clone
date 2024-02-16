@@ -20,17 +20,17 @@ export default function App({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const checkLoggedIn = async () => {
-      const isLoggedIn = await magic.user.isLoggedIn();
+    // const checkLoggedIn = async () => {
+    //   const isLoggedIn = await magic.user.isLoggedIn();
 
-      if (isLoggedIn) {
-        router.push("/")
-      } else {
-        router.push("/login")
-      }
-    }
+    //   if (isLoggedIn) {
+    //     router.push("/")
+    //   } else {
+    //     router.push("/login")
+    //   }
+    // }
 
-    checkLoggedIn()
+    // checkLoggedIn()
   }, [])
 
   useEffect(() => {
@@ -52,8 +52,8 @@ export default function App({ Component, pageProps }) {
       className={`${robotoSlab.className} ${isLoading ? "fullHeight" : ""}`}
     >
       {
-        isLoading ?
-          <Loading /> :
+        // isLoading ?
+        //   <Loading /> :
           <Component {...pageProps} />
       }
     </main>
