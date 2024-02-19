@@ -4,24 +4,15 @@ import Modal from "react-modal"
 
 import styles from "../../styles/Video.module.css"
 import { getVideoById } from "../../lib/videos";
+import NavBar from "@/components/nav/navbar";
 
 Modal.setAppElement("#__next")
 
 export async function getStaticProps(context) {
 
-    // const video = {
-    //     title: "hi cute dog",
-    //     publishTime: "1990-01-01",
-    //     description: "asdfasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfasdf asdf asdf asdf asdf asdf asdf asdf asdf",
-    //     channelTitle: "Paramoutn Pictures",
-    //     viewCount: 1000
-    // }
-
     const videoId = context.params.videoId
 
     const videoArray = await getVideoById(videoId)
-
-    console.log(videoArray)
 
     return {
         props: {
@@ -70,6 +61,7 @@ const Video = ({ video }) => {
 
     return (
         <div className={styles.container}>
+            <NavBar />
             <Modal
                 isOpen={true}
                 contentLabel="Watch the video"
