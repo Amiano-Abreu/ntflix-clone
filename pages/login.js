@@ -32,25 +32,37 @@ const Login = () => {
         e.preventDefault()
 
         if (email) {
-            if (email === "amianoabreu@gmail.com") {
-                setIsLoading(true)
-                try {
-                    const dIdToken = await magic.auth.loginWithMagicLink({
-                        email
+            setIsLoading(true)
+            try {
+                const dIdToken = await magic.auth.loginWithMagicLink({
+                    email
+                })
+
+                console.log(dIdToken)
+                if (dIdToken) {
+
+                    const response = await fetch("/api/login", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${dIdToken}`,
+                            "Content-Type": "application/json"
+                        }
                     })
 
-                    console.log(dIdToken)
-                    if (dIdToken) {
-                        router.push("/")
-                    }
-                } catch (e) {
-                    setIsLoading(false)
-                    console.error("Something went wrong while loggin in ", e)
-                } 
+                    const loggedInResponse = await response.json();
 
-            } else {
+                    if (loggedInResponse.done) {
+                        setIsLoading(false)
+                        router.push("/")
+                    } else {
+                        setIsLoading(false)
+                        setUserMsg("Something went wrong")
+                    }
+
+                }
+            } catch (e) {
                 setIsLoading(false)
-                setUserMsg("Something went wrong")
+                console.error("Something went wrong while loggin in ", e)
             }
         } else {
             setIsLoading(false)

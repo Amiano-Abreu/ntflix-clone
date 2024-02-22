@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@magic-sdk/admin": "^2.1.0",
+    "cookie": "^0.6.0",
     "framer-motion": "^11.0.3",
     "jsonwebtoken": "^9.0.2",
     "magic-sdk": "^22.1.1",
