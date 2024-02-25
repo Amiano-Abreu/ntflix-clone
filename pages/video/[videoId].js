@@ -6,6 +6,10 @@ import styles from "../../styles/Video.module.css"
 import { getVideoById } from "../../lib/videos";
 import NavBar from "@/components/nav/navbar";
 
+import DisLike from "@/components/icons/dislike-icon";
+import Like from "@/components/icons/like-icon";
+import { useState } from "react";
+
 Modal.setAppElement("#__next")
 
 export async function getStaticProps(context) {
@@ -59,6 +63,21 @@ const Video = ({ video }) => {
         }
     } = video
 
+    const [toggleLike, setToggleLike] = useState(false)
+    const [toggleDisLike, setToggleDisLike] = useState(false)
+
+    const handleToggleDisLike = () => {
+        console.log("dislike")
+        setToggleDisLike(!toggleDisLike)
+        setToggleLike(toggleDisLike)
+    }
+
+    const handleToggleLike = () => {
+        console.log("like")
+        setToggleLike(!toggleLike)
+        setToggleDisLike(toggleLike)
+    }
+
     return (
         <div className={styles.container}>
             <NavBar />
@@ -82,6 +101,20 @@ const Video = ({ video }) => {
                 >
                 </iframe>
 
+                <div className={styles.likeDislikeBtnWrapper}>
+                    <div className={styles.likeBtnWrapper}>
+                        <button onClick={handleToggleLike}>
+                            <div className={styles.btnWrapper}>
+                                <Like selected={toggleLike} />
+                            </div>
+                        </button>
+                    </div>
+                    <button onClick={handleToggleDisLike}>
+                        <div className={styles.btnWrapper}>
+                            <DisLike selected={toggleDisLike} />
+                        </div>
+                    </button>
+                </div>
                 <div
                     className={styles.modalBody}
                 >
