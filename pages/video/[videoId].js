@@ -63,19 +63,42 @@ const Video = ({ video }) => {
         }
     } = video
 
+    const runRatingService = async (favourited) => {
+        return await fetch('/api/stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                videoId, 
+                favourited
+            }),
+            headers: {
+                "Content-Type": "application/json" 
+            }
+        })
+    }
+
     const [toggleLike, setToggleLike] = useState(false)
     const [toggleDisLike, setToggleDisLike] = useState(false)
 
-    const handleToggleDisLike = () => {
+    const handleToggleDisLike = async () => {
         console.log("dislike")
-        setToggleDisLike(!toggleDisLike)
+        const val = !toggleDisLike
+        setToggleDisLike(val)
         setToggleLike(toggleDisLike)
+
+        const favourited = val ? 0 : 1
+        const response = await runRatingService(favourited)
     }
 
-    const handleToggleLike = () => {
+    const handleToggleLike = async () => {
         console.log("like")
-        setToggleLike(!toggleLike)
+        const val = !toggleLike
+        setToggleLike(val)
         setToggleDisLike(toggleLike)
+
+        const favourited = val ? 1 : 0
+        const response = await runRatingService(favourited)
+
+        
     }
 
     return (
