@@ -7,7 +7,7 @@ export default async function stats(req, res) {
             if (!token) {
                 res.status(403).send({})
             } else {
-                const { videoId } = req.body
+                const { videoId } = req.method === "POST" ? req.body : req.query;
                 
                 if (videoId) {
                     const decodedToken = jwt.verify(token, process.env.JWT_SECRET)

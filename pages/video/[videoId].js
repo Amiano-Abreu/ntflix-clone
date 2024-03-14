@@ -8,7 +8,7 @@ import NavBar from "@/components/nav/navbar";
 
 import DisLike from "@/components/icons/dislike-icon";
 import Like from "@/components/icons/like-icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 Modal.setAppElement("#__next")
 
@@ -62,6 +62,26 @@ const Video = ({ video }) => {
             viewCount: 0
         }
     } = video
+
+    useEffect(() => {
+        const isFavourited = async () => {
+            const response = await fetch(`/api/stats?videoId=${videoId}`, {
+                method: 'GET'
+            })
+            const data = await response.json()
+    
+            if (data.length > 0) {
+                const favourited = data[0].favourited;
+                if (favourited) {
+                    setToggleLike(true)
+                } else {
+                    setToggleDisLike(true)
+                }
+            }
+        }
+
+        isFavourited()
+    }, [])
 
     const runRatingService = async (favourited) => {
         return await fetch('/api/stats', {
