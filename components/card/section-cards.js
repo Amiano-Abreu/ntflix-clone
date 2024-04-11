@@ -3,13 +3,13 @@ import Card from "./card";
 
 import styles from "./section-cards.module.css"
 
-const SectionCards = ({ title, videos = [], size }) => {
+const SectionCards = ({ title, videos = [], size, shouldWrap = false, shouldScale }) => {
     return (
         <section className={styles.container}>
             <h2 className={styles.title}>
                 {title}
             </h2>
-            <div className={styles.cardWrapper}>
+            <div className={`${styles.cardWrapper} ${shouldWrap ? styles.wrap : ""}`}>
                 {
                     videos?.map( (video, i) => {
                             return (
@@ -21,6 +21,7 @@ const SectionCards = ({ title, videos = [], size }) => {
                                         imgUrl={video.imgUrl}
                                         size={size}
                                         id={i}
+                                        shouldScale={shouldScale}
                                     />
                                 </Link>
                             )

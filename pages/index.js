@@ -7,11 +7,24 @@ import NavBar from "@/components/nav/navbar";
 import SectionCards from "@/components/card/section-cards";
 
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from "@/lib/videos";
+import userRedirectUser from "@/utils/redirectUser";
 
-export async function getServerSideProps() {
-  const userId = "did:ethr:0xf2266c6fe72F44Ceffd9791d252e6E4e9a20426F"
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweGYyMjY2YzZmZTcyRjQ0Q2VmZmQ5NzkxZDI1MmU2RTRlOWEyMDQyNkYiLCJwdWJsaWNBZGRyZXNzIjoiMHhmMjI2NmM2ZmU3MkY0NENlZmZkOTc5MWQyNTJlNkU0ZTlhMjA0MjZGIiwiZW1haWwiOiJhbWlhbm9hYnJldUBnbWFpbC5jb20iLCJvYXV0aFByb3ZpZGVyIjpudWxsLCJwaG9uZU51bWJlciI6bnVsbCwid2FsbGV0cyI6W10sImlhdCI6MTcxMDQxNzMyNywiZXhwIjoxNzExMDIyMTI3LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJ4LWhhc3VyYS11c2VyLWlkIjoiZGlkOmV0aHI6MHhmMjI2NmM2ZmU3MkY0NENlZmZkOTc5MWQyNTJlNkU0ZTlhMjA0MjZGIn19.20BwQCe38LpvtRq7shzZmZqMoNsiX828sJqgqUcT2qQ"
+export async function getServerSideProps(context) {
+  // const userId = "did:ethr:0xf2266c6fe72F44Ceffd9791d252e6E4e9a20426F"
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweGYyMjY2YzZmZTcyRjQ0Q2VmZmQ5NzkxZDI1MmU2RTRlOWEyMDQyNkYiLCJwdWJsaWNBZGRyZXNzIjoiMHhmMjI2NmM2ZmU3MkY0NENlZmZkOTc5MWQyNTJlNkU0ZTlhMjA0MjZGIiwiZW1haWwiOiJhbWlhbm9hYnJldUBnbWFpbC5jb20iLCJvYXV0aFByb3ZpZGVyIjpudWxsLCJwaG9uZU51bWJlciI6bnVsbCwid2FsbGV0cyI6W10sImlhdCI6MTcxMjYyNDc4MSwiZXhwIjoxNzEzMjI5NTgxLCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJ4LWhhc3VyYS11c2VyLWlkIjoiZGlkOmV0aHI6MHhmMjI2NmM2ZmU3MkY0NENlZmZkOTc5MWQyNTJlNkU0ZTlhMjA0MjZGIn19.ySN6HOijQPjmVSQ_6zwJ2eq965z_3ssTBC23UxCRqas"
 
+  const { userId, token } = await userRedirectUser(context);
+
+  if (!userId) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      }
+    }
+  }
+  
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
   const disneyVideos = await getVideos("disney trailer");
   const productivityVideos = await getVideos("Productivity");
@@ -21,7 +34,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      watchItAgainVideos,
+      watchItAgainVideos: watchItAgainVideos || null,
       disneyVideos,
       productivityVideos,
       travelVideos,
@@ -35,7 +48,7 @@ export default function Home({
   productivityVideos, 
   travelVideos,
   polularVideos,
-  watchItAgainVideos
+  watchItAgainVideos = []
 }) {
 
   return (

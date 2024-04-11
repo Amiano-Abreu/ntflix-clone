@@ -30,19 +30,25 @@ const NavBar = () => {
         setShowDropdown(prev => !prev)
     }
 
-    const handleSignOut = async (e) => {
-        e.preventDefault()
+    const handleSignout = async (e) => {
+      e.preventDefault();
+    //   const didToken = req?.cookies?.token
 
-        try {
-            await magic.user.logout();
-            console.log(await magic.user.isLoggedIn())
+      try {
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+          headers: {
+            // Authorization: `Bearer ${didToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-            router.push("/login")
-        } catch (error) {
-            console.error("Error logging out ", error)
-            router.push("/login")
-        }
-    }
+        const res = await response.json();
+      } catch (error) {
+        console.error('Error logging out', error);
+        router.push('/login');
+      }
+    };
 
     useEffect(() => {
         const retrieveEmail = async () => {
@@ -92,7 +98,7 @@ const NavBar = () => {
                                     <div>
                                         <a 
                                             className={styles.linkName}
-                                            onClick={handleSignOut}
+                                            onClick={handleSignout}
                                         >
                                             sign out
                                         </a>

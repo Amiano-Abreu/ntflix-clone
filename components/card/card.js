@@ -8,7 +8,8 @@ import styles from "./card.module.css"
 const Card = ({ 
     imgUrl = "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=859&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     size = "medium",
-    id
+    id,
+    shouldScale = true
 }) => {
 
     const classMap ={
@@ -25,6 +26,9 @@ const Card = ({
     }
 
     const scale = id === 0 ? { scaleY: 1.1 } : { scale: 1.1 }
+    const shouldHover = shouldScale && {
+        whileHover: { ...scale }
+    }
 
     return (
         <div 
@@ -32,9 +36,7 @@ const Card = ({
         >
             <motion.div 
                 className={`${styles.imgMotionWrapper} ${classMap[size]}`}
-                whileHover={{
-                    ...scale
-                }}     
+                {...shouldHover}
             >
                 <Image 
                     src={imgSrc} 
