@@ -38,7 +38,7 @@ const Login = () => {
                     email
                 })
 
-                console.log(dIdToken)
+                // console.log(dIdToken)
                 if (dIdToken) {
 
                     const response = await fetch("/api/login", {
