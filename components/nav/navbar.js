@@ -3,7 +3,6 @@ import { magic } from "@/lib/magic-client";
 import styles from "./navbar.module.css"
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";

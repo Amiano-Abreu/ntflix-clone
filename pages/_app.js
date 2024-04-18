@@ -1,4 +1,3 @@
-import Loading from "@/components/loading/loading";
 import { magic } from "@/lib/magic-client";
 
 import "@/styles/globals.css";
@@ -20,17 +19,17 @@ export default function App({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // const checkLoggedIn = async () => {
-    //   const isLoggedIn = await magic.user.isLoggedIn();
+    const checkLoggedIn = async () => {
+      const isLoggedIn = await magic.user.isLoggedIn();
 
-    //   if (isLoggedIn) {
-    //     router.push("/")
-    //   } else {
-    //     router.push("/login")
-    //   }
-    // }
+      if (isLoggedIn) {
+        router.push("/")
+      } else {
+        router.push("/login")
+      }
+    }
 
-    // checkLoggedIn()
+    checkLoggedIn()
   }, [])
 
   useEffect(() => {
