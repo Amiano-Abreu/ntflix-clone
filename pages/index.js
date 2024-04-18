@@ -62,10 +62,10 @@ export default function Home({
         />
 
         <Banner 
-          videoId="4zH5iYM4wJo"
-          title="Clifford the red dog" 
-          subTitle="a very cute dog" 
-          imgUrl="/static/banner.webp" 
+          videoId="n1oUspMuUgk"
+          title="Isle of man TT" 
+          subTitle="Closing film 2023" 
+          imgUrl="/static/isle.jpg" 
         />
       
         <div className={styles.sectionWrapper}>
