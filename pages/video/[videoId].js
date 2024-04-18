@@ -9,23 +9,10 @@ import NavBar from "@/components/nav/navbar";
 import DisLike from "@/components/icons/dislike-icon";
 import Like from "@/components/icons/like-icon";
 import { useEffect, useState } from "react";
-import userRedirectUser from "@/utils/redirectUser";
 
 Modal.setAppElement("#__next")
 
 export async function getStaticProps(context) {
-
-    const { userId } = await userRedirectUser(context)
-
-    if (!userId) {
-      return {
-        props: {},
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
-      };
-    }
 
     const videoId = context.params.videoId
 
@@ -77,6 +64,7 @@ const Video = ({ video }) => {
     } = video
 
     useEffect(() => {
+
         const isFavourited = async () => {
             const response = await fetch(`/api/stats?videoId=${videoId}`, {
                 method: 'GET'
