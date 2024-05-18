@@ -11,8 +11,18 @@ const NavBar = () => {
 
     const [showDropdown, setShowDropdown] = useState(false)
     const [username, setUsername] = useState("")
+    const [width, setWidth] = useState(0);
+    const [openMenu, setOpenMenu] = useState(false);
 
     const router = useRouter()
+
+    const openMenuHandler = () => {
+        setOpenMenu(true)
+    }
+
+    const closeMenuHandler = () => {
+        setOpenMenu(false)
+    }
 
     const handleOnClickHome = (e) => {
         e.preventDefault();
@@ -62,23 +72,53 @@ const NavBar = () => {
             }
         }
 
+        const handleResize = () => {
+          setWidth(window.innerWidth);
+        };
+
+        handleResize(); // Set initial width
+        window.addEventListener('resize', handleResize);
+
         retrieveEmail()
+
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+
     }, [])
 
     return (
         <div
             className={styles.container}
         >
-            <div className={styles.wrapper}>
-                <a
-                    className={styles.logoLink}
-                    href="/"
-                >
-                    <div className={styles.logoWrapper}>
-                        <Image src="/static/netflix.svg" alt="netflix logo" width="128" height="34" />
-                    </div>
-                </a>
-                <ul className={styles.navItems}>
+            <div 
+                className={`${styles.wrapper} ${width < 600 ? styles.spread : ''} ${ openMenu ? styles.removePadding : ''}`}
+            >
+                {
+                    !openMenu ?
+                    <a
+                        className={styles.logoLink}
+                        href="/"
+                    >
+                        <div className={styles.logoWrapper}>
+                            <Image src="/static/netflix.svg" alt="netflix logo" width="128" height="34" />
+                        </div>
+                    </a>
+                    :
+                    <></>
+                }
+                {
+                    width < 600 && !openMenu
+                        &&
+                    <Image
+                        src="/static/menuIcon.svg" 
+                        alt="Menu icon"
+                        width="32"
+                        height="32"
+                        onClick={openMenuHandler}
+                    />
+                }
+                {/* <ul className={styles.navItems}>
                     <li className={styles.navItem} onClick={handleOnClickHome}>Home</li>
                     <li className={styles.navItem2} onClick={handleOnClickMyList}>My List</li>
                 </ul>
@@ -108,7 +148,95 @@ const NavBar = () => {
                             )
                         }
                     </div>
-                </nav>
+                </nav> */}
+                {
+                    openMenu ?
+                    <div>
+                        <div
+                            className={styles.closeIconContainer}
+                        >
+                            <Image 
+                                src="/static/closeIcon.svg" 
+                                alt="Close Icon" 
+                                width="24" 
+                                height="24"
+                                style={{
+                                    margin: '.5rem'
+                                }}
+                                onClick={closeMenuHandler}
+                            />
+                        </div>
+                        <div className={styles.mobileContainer}>
+                            <ul 
+                                className={styles.navItems}
+                                style={{
+                                    flexDirection: 'column',
+                                    padding: 0,
+                                    marginLeft: 0,
+                                    width: '100%',
+                                    textAlign: 'center',
+                                    marginBottom: '1.5rem'
+                                }}    
+                            >
+                                <li 
+                                    className={styles.navItem} 
+                                    onClick={(e) => {
+                                        closeMenuHandler()
+                                        handleOnClickHome(e)
+                                    }}
+                                    style={{
+                                        marginRight: 0,
+                                        marginBottom: '1.5rem'
+                                    }}
+                                >Home</li>
+                                <li 
+                                    className={styles.navItem2} 
+                                    onClick={(e) => {
+                                        closeMenuHandler()
+                                        handleOnClickMyList(e)
+                                    }}
+                                >My List</li>
+                            </ul>
+
+                            
+                            <nav 
+                                className={styles.navContainer}
+                                style={{
+                                    marginLeft: 0
+                                }}
+                            >
+                                <div>
+                                    <button className={styles.usernameBtn} onClick={handleShowDropdown}>
+                                        <p className={styles.username}>{username}</p>
+                                        <Image src="/static/dropdown.svg" alt="Expand dropdown" width="24" height="24" />
+                                    </button>
+                                    {
+                                        showDropdown &&
+                                        (
+                                            <div className={styles.navDropdown}>
+                                                <div>
+                                                    <a 
+                                                        className={styles.linkName}
+                                                        onClick={(e) => {
+                                                            closeMenuHandler()
+                                                            handleSignout(e)
+                                                        }}
+                                                    >
+                                                        sign out
+                                                    </a>
+                                                    <div className={styles.lineWrapper}></div>
+
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    :
+                    <></>    
+                }
             </div>
         </div>
     );

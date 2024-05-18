@@ -57,9 +57,7 @@ export default function Home({
       </Head>
 
       <div className={styles.main}>
-        <NavBar 
-          username="amianoabreu@gmail.com"
-        />
+        <NavBar />
 
         <Banner 
           videoId="n1oUspMuUgk"

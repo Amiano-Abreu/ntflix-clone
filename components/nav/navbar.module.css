@@ -1,3 +1,29 @@
+.spread {
+  justify-content: space-between;
+}
+
+.removePadding {
+  padding: 0 !important;
+}
+
+.closeIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--black)
+}
+
+.mobileContainer {
+  z-index: 99999999;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
 .container {
     color: var(--white10);
     position: fixed;
