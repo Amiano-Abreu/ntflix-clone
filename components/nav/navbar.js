@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
+import MobileNav from "./mobileNav";
+import DesktopNav from "./desktopNav";
 
 const NavBar = () => {
 
@@ -92,7 +94,7 @@ const NavBar = () => {
             className={styles.container}
         >
             <div 
-                className={`${styles.wrapper} ${width < 600 ? styles.spread : ''} ${ openMenu ? styles.removePadding : ''}`}
+                className={`${styles.wrapper} ${width <= 600 ? styles.spread : ''} ${ openMenu ? styles.removePadding : ''}`}
             >
                 {
                     !openMenu ?
@@ -108,7 +110,7 @@ const NavBar = () => {
                     <></>
                 }
                 {
-                    width < 600 && !openMenu
+                    width <= 600 && !openMenu
                         &&
                     <Image
                         src="/static/menuIcon.svg" 
@@ -118,122 +120,29 @@ const NavBar = () => {
                         onClick={openMenuHandler}
                     />
                 }
-                {/* <ul className={styles.navItems}>
-                    <li className={styles.navItem} onClick={handleOnClickHome}>Home</li>
-                    <li className={styles.navItem2} onClick={handleOnClickMyList}>My List</li>
-                </ul>
+                {
+                    width > 600 &&
+                    <DesktopNav 
+                        handleOnClickHome={handleOnClickHome}
+                        handleOnClickMyList={handleOnClickMyList}
+                        handleShowDropdown={handleShowDropdown}
+                        username={username}
+                        showDropdown={showDropdown}
+                        handleSignout={handleSignout}
+                    />
 
-                
-                <nav className={styles.navContainer}>
-                    <div>
-                        <button className={styles.usernameBtn} onClick={handleShowDropdown}>
-                            <p className={styles.username}>{username}</p>
-                            <Image src="/static/dropdown.svg" alt="Expand dropdown" width="24" height="24" />
-                        </button>
-                        {
-                            showDropdown &&
-                            (
-                                <div className={styles.navDropdown}>
-                                    <div>
-                                        <a 
-                                            className={styles.linkName}
-                                            onClick={handleSignout}
-                                        >
-                                            sign out
-                                        </a>
-                                        <div className={styles.lineWrapper}></div>
-
-                                    </div>
-                                </div>
-                            )
-                        }
-                    </div>
-                </nav> */}
+                }
                 {
                     openMenu ?
-                    <div>
-                        <div
-                            className={styles.closeIconContainer}
-                        >
-                            <Image 
-                                src="/static/closeIcon.svg" 
-                                alt="Close Icon" 
-                                width="24" 
-                                height="24"
-                                style={{
-                                    margin: '.5rem'
-                                }}
-                                onClick={closeMenuHandler}
-                            />
-                        </div>
-                        <div className={styles.mobileContainer}>
-                            <ul 
-                                className={styles.navItems}
-                                style={{
-                                    flexDirection: 'column',
-                                    padding: 0,
-                                    marginLeft: 0,
-                                    width: '100%',
-                                    textAlign: 'center',
-                                    marginBottom: '1.5rem'
-                                }}    
-                            >
-                                <li 
-                                    className={styles.navItem} 
-                                    onClick={(e) => {
-                                        closeMenuHandler()
-                                        handleOnClickHome(e)
-                                    }}
-                                    style={{
-                                        marginRight: 0,
-                                        marginBottom: '1.5rem'
-                                    }}
-                                >Home</li>
-                                <li 
-                                    className={styles.navItem2} 
-                                    onClick={(e) => {
-                                        closeMenuHandler()
-                                        handleOnClickMyList(e)
-                                    }}
-                                >My List</li>
-                            </ul>
-
-                            
-                            <nav 
-                                className={styles.navContainer}
-                                style={{
-                                    marginLeft: 0
-                                }}
-                            >
-                                <div>
-                                    <button className={styles.usernameBtn} onClick={handleShowDropdown}>
-                                        <p className={styles.username}>{username}</p>
-                                        <Image src="/static/dropdown.svg" alt="Expand dropdown" width="24" height="24" />
-                                    </button>
-                                    {
-                                        showDropdown &&
-                                        (
-                                            <div className={styles.navDropdown}>
-                                                <div>
-                                                    <a 
-                                                        className={styles.linkName}
-                                                        onClick={(e) => {
-                                                            closeMenuHandler()
-                                                            handleSignout(e)
-                                                        }}
-                                                    >
-                                                        sign out
-                                                    </a>
-                                                    <div className={styles.lineWrapper}></div>
-
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
+                        <MobileNav 
+                            closeMenuHandler={closeMenuHandler}
+                            handleOnClickMyList={handleOnClickMyList}
+                            handleOnClickHome={handleOnClickHome}
+                            handleShowDropdown={handleShowDropdown}
+                            handleSignout={handleSignout}
+                            showDropdown={showDropdown}
+                            username={username}
+                        />
                     :
                     <></>    
                 }
