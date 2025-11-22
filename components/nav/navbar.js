@@ -103,7 +103,8 @@ const NavBar = () => {
                         href="/"
                     >
                         <div className={styles.logoWrapper}>
-                            <Image src="/static/netflix.svg" alt="netflix logo" width="128" height="34" />
+                            {/* <Image src="/static/netflix.svg" alt="netflix logo" width="128" height="34" /> */}
+                            <Image src="/static/flixvid.svg" alt="netflix logo" width="128" height="34" />
                         </div>
                     </a>
                     :

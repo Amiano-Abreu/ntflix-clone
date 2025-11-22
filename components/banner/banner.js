@@ -22,7 +22,7 @@ const Banner = ({title, subTitle, imgUrl, videoId}) => {
                     <div
                         className={styles.nseriesWrapper}
                     >
-                        <p className={styles.firstLetter}>N</p>
+                        <p className={styles.firstLetter}>F</p>
                         <p className={styles.series}>S E R I E S</p>
                     </div>
                     <h3 className={styles.title}>
